@@ -14,7 +14,7 @@ const Navbar = ({ userName }) => {
       {userName && (
         <Form
           method="post"
-          action="./logout"
+          action="logout"
           onSubmit={(event) => {
             if (!confirm("Delete user and all data?")) {
               event.preventDefault();
@@ -23,7 +23,7 @@ const Navbar = ({ userName }) => {
         >
           <button type="submit" className="btn btn--warning">
             <span>Delete User</span>
-            <TrashIcon />
+            <TrashIcon width={20} />
           </button>
         </Form>
       )}
