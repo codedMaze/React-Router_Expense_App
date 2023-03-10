@@ -5,5 +5,5 @@ import { deleteItem } from "../helper";
 export const logoutAction = async () => {
   deleteItem({ key: "userName" });
   toast.success("You've deleted your account");
-  return redirect("");
+  return redirect("/");
 };
