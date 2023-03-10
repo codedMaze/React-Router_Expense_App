@@ -6,7 +6,20 @@ import { fetchData } from "../helper";
 
 const DashBoard = () => {
   const { userName } = useLoaderData();
-  return <>{userName ? <p>{userName}</p> : <Intro />}</>;
+  return (
+    <>
+      {userName ? (
+        <div className="dashboard">
+          <h1>
+            Welcome back, <span className="accent">{userName}</span>
+          </h1>
+          <div className="grid-sm"></div>
+        </div>
+      ) : (
+        <Intro />
+      )}
+    </>
+  );
 };
 
 export default DashBoard;
