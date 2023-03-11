@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Main />,
     loader: mainLoader,
+    errorElement: <Error />,
 
     children: [
       {
@@ -19,7 +20,6 @@ const router = createBrowserRouter([
         element: <DashBoard />,
         loader: dashboardLoader,
         action: dashboardAction,
-        errorElement: <Error />,
       },
       {
         path: "logout",

@@ -28,8 +28,9 @@ const AddBudgetForm = () => {
             inputMode="decimal"
             required
           />
+          <input type="hidden" name="_action" value="createBudget" />
         </div>
-        <button type="button" className="btn btn--dark">
+        <button type="submit" className="btn btn--dark">
           <span>Create budget</span>
           <CurrencyDollarIcon width={20} />
         </button>
