@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
 import Intro from "../components/Intro";
-import { createBudget, fetchData } from "../helper";
+import { createBudget, fetchData, waait } from "../helper";
 
 const DashBoard = () => {
   const { userName, budget } = useLoaderData();
@@ -33,6 +33,7 @@ const DashBoard = () => {
 export default DashBoard;
 
 export const dashboardAction = async ({ request }) => {
+  await waait();
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
   console.log(_action);
