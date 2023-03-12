@@ -6,7 +6,8 @@ import Intro from "../components/Intro";
 import { createBudget, fetchData, waait } from "../helper";
 
 const DashBoard = () => {
-  const { userName, budget } = useLoaderData();
+  const { userName, budgets } = useLoaderData();
+  console.log(budgets);
   return (
     <>
       {userName ? (
@@ -15,12 +16,19 @@ const DashBoard = () => {
             Welcome back, <span className="accent">{userName}</span>
           </h1>
           <div className="grid-sm">
-            {/* {budget ? () : ()} */}
-            <div className="grid-lg">
-              <div className="flex-lg">
+            {budgets && budgets.length > 0 ? (
+              <div className="grid-lg">
+                <div className="flex-lg">
+                  <AddBudgetForm />
+                </div>
+              </div>
+            ) : (
+              <div className="grid-sm">
+                <p>Personal budgeting is the secret to financial freedom.</p>
+                <p>Create a budget to get</p>
                 <AddBudgetForm />
               </div>
-            </div>
+            )}
           </div>
         </div>
       ) : (
@@ -59,6 +67,6 @@ export const dashboardAction = async ({ request }) => {
 
 export const dashboardLoader = () => {
   const userName = fetchData("userName");
-  const budget = fetchData("budget");
-  return { userName, budget };
+  const budgets = fetchData("budgets");
+  return { userName, budgets };
 };
