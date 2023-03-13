@@ -5,10 +5,12 @@ import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Intro from "../components/Intro";
+import Table from "../components/Table";
 import { createBudget, createExpense, fetchData, waait } from "../helper";
 
 const DashBoard = () => {
-  const { userName, budgets } = useLoaderData();
+  const { userName, budgets, expenses } = useLoaderData();
+  // console.log(expenses[1].amount);
 
   return (
     <>
@@ -30,6 +32,16 @@ const DashBoard = () => {
                     <BudgetItem budget={budget} key={budget.id} />
                   ))}
                 </div>
+                {expenses && expenses.length > 0 && (
+                  <div className="grid-md">
+                    <h2>Recent Expenses</h2>
+                    <Table
+                      expenses={expenses.sort(
+                        (a, b) => b.createdAt - a.createdAt
+                      )}
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid-sm">
@@ -89,5 +101,6 @@ export const dashboardAction = async ({ request }) => {
 export const dashboardLoader = () => {
   const userName = fetchData("userName");
   const budgets = fetchData("budgets");
-  return { userName, budgets };
+  const expenses = fetchData("expenses");
+  return { userName, budgets, expenses };
 };

@@ -76,3 +76,7 @@ export const formatPercentage = (amount) => {
     minimumFractionDigits: 0,
   });
 };
+
+export const formatDateToLocaleString = (value) => {
+  return new Date(value).toLocaleDateString();
+};
