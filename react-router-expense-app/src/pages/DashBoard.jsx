@@ -2,12 +2,14 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
+import AddExpenseForm from "../components/AddExpenseForm";
+import BudgetItem from "../components/BudgetItem";
 import Intro from "../components/Intro";
-import { createBudget, fetchData, waait } from "../helper";
+import { createBudget, createExpense, fetchData, waait } from "../helper";
 
 const DashBoard = () => {
   const { userName, budgets } = useLoaderData();
-  console.log(budgets);
+
   return (
     <>
       {userName ? (
@@ -20,6 +22,13 @@ const DashBoard = () => {
               <div className="grid-lg">
                 <div className="flex-lg">
                   <AddBudgetForm />
+                  <AddExpenseForm budgets={budgets} />h
+                </div>
+                <h2>Existing Budgets</h2>
+                <div className="budgets">
+                  {budgets.map((budget) => (
+                    <BudgetItem budget={budget} key={budget.id} />
+                  ))}
                 </div>
               </div>
             ) : (
@@ -44,7 +53,6 @@ export const dashboardAction = async ({ request }) => {
   await waait();
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
-  console.log(_action);
 
   if (_action === "newUser") {
     try {
@@ -61,6 +69,19 @@ export const dashboardAction = async ({ request }) => {
       return toast.success("Budget created successfully");
     } catch (err) {
       throw new Error("there was a problem creating your budget.");
+    }
+  }
+
+  if (_action === "createExpense") {
+    try {
+      createExpense({
+        name: values.newExpense,
+        amount: values.newExpenseAmount,
+        budgetId: values.newExpenseBudget,
+      });
+      return toast.success(`Expense ${values.newExpense} created`);
+    } catch (err) {
+      throw new Error("there was a problem creating your expense.");
     }
   }
 };
