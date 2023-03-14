@@ -1,12 +1,18 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Intro from "../components/Intro";
 import Table from "../components/Table";
-import { createBudget, createExpense, fetchData, waait } from "../helper";
+import {
+  createBudget,
+  createExpense,
+  deleteItem,
+  fetchData,
+  waait,
+} from "../helper";
 
 const DashBoard = () => {
   const { userName, budgets, expenses } = useLoaderData();
@@ -36,10 +42,15 @@ const DashBoard = () => {
                   <div className="grid-md">
                     <h2>Recent Expenses</h2>
                     <Table
-                      expenses={expenses.sort(
-                        (a, b) => b.createdAt - a.createdAt
-                      )}
+                      expenses={expenses
+                        .sort((a, b) => b.createdAt - a.createdAt)
+                        .slice(0, 4)}
                     />
+                    {expenses.length > 4 && (
+                      <Link to="expenses" className="btn btn--dark">
+                        View all expenses
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
@@ -94,6 +105,18 @@ export const dashboardAction = async ({ request }) => {
       return toast.success(`Expense ${values.newExpense} created`);
     } catch (err) {
       throw new Error("there was a problem creating your expense.");
+    }
+  }
+
+  if (_action === "deleteExpense") {
+    try {
+      deleteItem({
+        key: "expenses",
+        id: values.expenseId,
+      });
+      return toast.success(`Expense deleted!`);
+    } catch (err) {
+      throw new Error("there was a problem deleting your expense.");
     }
   }
 };

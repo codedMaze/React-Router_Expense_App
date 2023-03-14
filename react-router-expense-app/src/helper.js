@@ -44,10 +44,6 @@ export const createExpense = ({ name, budgetId, amount }) => {
   );
 };
 
-export const deleteItem = ({ key }) => {
-  localStorage.removeItem(key);
-};
-
 // Formart Currency
 export const formartCurrency = (currency) => {
   return currency.toLocaleString(undefined, {
@@ -79,4 +75,20 @@ export const formatPercentage = (amount) => {
 
 export const formatDateToLocaleString = (value) => {
   return new Date(value).toLocaleDateString();
+};
+
+// get all items from local Storage
+export const getAllMatchingItems = ({ category, key, value }) => {
+  const data = fetchData(category);
+  return data.filter((item) => item[key] === value);
+};
+
+// delete item from localStorage
+export const deleteItem = ({ key, id }) => {
+  const existingData = fetchData(key);
+  if (id) {
+    const newData = existingData.filter((item) => item.id !== id);
+    return localStorage.setItem(key, JSON.stringify(newData));
+  }
+  return localStorage.removeItem(key);
 };
